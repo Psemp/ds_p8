@@ -6,6 +6,10 @@ imgs/*
 data/*
 heavy/*
 private/*
+m_o/
+
+# Julia's manifest
+project_8_jl_env/Manifest.toml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
