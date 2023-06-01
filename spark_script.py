@@ -17,8 +17,8 @@ from pyspark.ml.linalg import Vectors, VectorUDT, SparseVector, DenseVector
 
 
 PATH = "s3://ds-p8"
-PATH_Data = PATH + "/data"
-PATH_Result = PATH + "/Results"
+PATH_DATA = PATH + "/data"
+PATH_RESULT = PATH + "/Results"
 
 k_components = 138
 
@@ -33,12 +33,12 @@ spark = (
 sc = spark.sparkContext
 
 
-# Loading images from PATH_Data
+# Loading images from PATH_DATA
 images = (
     spark.read.format("binaryFile")
     .option("pathGlobFilter", "*.jpg")
     .option("recursiveFileLookup", "true")
-    .load(PATH_Data)
+    .load(PATH_DATA)
 )
 
 images = images.withColumn("label", element_at(split(images["path"], "/"), -2))
@@ -165,4 +165,4 @@ df_spark_vector = df_spark_vector.withColumn(
     )
 
 # Saving as parquet
-df_spark_vector.write.mode("overwrite").parquet(PATH_Result)
+df_spark_vector.write.mode("overwrite").parquet(PATH_RESULT)
