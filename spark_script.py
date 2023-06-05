@@ -150,7 +150,6 @@ spark_pca_model = spark_pca.fit(df_spark_vector)
 
 df_spark_vector = spark_pca_model.transform(dataset=df_spark_vector)
 
-
 # Converting vectors back to arrays for readability
 vector_to_array_udf = udf(
     lambda vector: vector.toArray().tolist()

@@ -1,0 +1,13 @@
+aws emr create-cluster \
+ --name "fruits_emr" \
+ --log-uri "s3n://ds-p8/logs/" \
+ --release-label "emr-6.10.0" \
+ --service-role "arn:aws:iam::283856714044:role/emr_manager" \
+ --ec2-attributes '{"InstanceProfile":"ec2_for_emr","EmrManagedMasterSecurityGroup":"sg-02d2d347fa4e2151d","EmrManagedSlaveSecurityGroup":"sg-07a37f97297d05df7","KeyName":"iam-admin-ds-p8","AdditionalMasterSecurityGroups":[],"AdditionalSlaveSecurityGroups":[],"SubnetId":"subnet-02efd22560cf6e6bf"}' \
+ --applications Name=Hadoop Name=JupyterHub Name=Spark Name=TensorFlow \
+ --instance-groups '[{"InstanceCount":1,"InstanceGroupType":"CORE","Name":"Core","InstanceType":"m5.xlarge","EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"VolumeType":"gp2","SizeInGB":32},"VolumesPerInstance":2}]}},{"InstanceCount":2,"InstanceGroupType":"TASK","Name":"feat_extraction_and_pca","InstanceType":"m5.xlarge","EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"VolumeType":"gp2","SizeInGB":32},"VolumesPerInstance":2}]}},{"InstanceCount":1,"InstanceGroupType":"MASTER","Name":"Primary","InstanceType":"m5.xlarge","EbsConfiguration":{"EbsBlockDeviceConfigs":[{"VolumeSpecification":{"VolumeType":"gp2","SizeInGB":32},"VolumesPerInstance":2}]}}]' \
+ --bootstrap-actions '[{"Args":["install","dependencies","required","for","tasks"],"Name":"dependencies_install","Path":"s3://ds-p8/scripts/bootstrap_script.sh"}]' \
+ --scale-down-behavior "TERMINATE_AT_TASK_COMPLETION" \
+ --auto-termination-policy '{"IdleTimeout":3600}' \
+ --os-release-label "2.0.20230504.1" \
+ --region "eu-west-1"
