@@ -8,9 +8,10 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras import Model
 
 from PIL import Image
+from typing import Iterator
 from pyspark.sql.functions import col, pandas_udf, element_at, split
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf, PandasUDFType
+from pyspark.sql.functions import udf
 from pyspark.sql.types import ArrayType, FloatType
 from pyspark.ml.feature import PCA as spa_PCA
 from pyspark.ml.linalg import Vectors, VectorUDT, SparseVector, DenseVector
@@ -107,16 +108,16 @@ def featurize_series(model, content_series):
     return pd.Series(output)
 
 
-@pandas_udf('array<float>', PandasUDFType.SCALAR_ITER)
-def featurize_udf(content_series_iter):
-    '''
+@pandas_udf("array<float>")
+def featurize_udf(content_series_iter: Iterator[pd.Series]) -> Iterator[pd.Series]:
+    """
     This method is a Scalar Iterator pandas UDF wrapping our featurization function.
     The decorator specifies that this returns a Spark DataFrame column of type ArrayType(FloatType).
 
     Args:
     - content_series_iter: This argument is an iterator over batches of data, where each batch
     is a pandas Series of image data.
-    '''
+    """
     # With Scalar Iterator pandas UDFs, we can load the model once and then re-use it
     # for multiple data batches.  This amortizes the overhead of loading big models.
     model = model_fn()
