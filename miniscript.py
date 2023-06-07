@@ -71,7 +71,7 @@ def model_fn():
     for layer in model.layers:
         layer.trainable = False
 
-    new_model = tf.kerras.Model(
+    new_model = tf.keras.Model(
         inputs=model.input,
         outputs=model.layers[-2].output
         )
