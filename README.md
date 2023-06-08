@@ -3,6 +3,8 @@
 - [Data : Fruits 360](https://www.kaggle.com/moltean/fruits)
 - Using PySpark with EMR
 
+<i>Requirements in requirements.txt, `pip install -r requirements.txt`</i>
+
 # Goals and Steps :
 - Deploying a pretrained model on an AWS EMR Cluster with PCA on features
 - Making available the data and the results (see links)
@@ -15,3 +17,6 @@
 - [Notebook executed and hosted on S3](https://ds-p8.s3.eu-west-1.amazonaws.com/jupyter/jovyan/nb_aws_spark.ipynb)
 - [Image dataset in .zip format (a script and csv can also be used to download all images from S3)](https://ds-p8.s3.eu-west-1.amazonaws.com/images_upload.zip)
 - [Results as csv (initially parquet but export as csv for simplicity)](https://ds-p8.s3.eu-west-1.amazonaws.com/csvs/results_fruits.csv) (also available in this repo, with deduced html links to each image)
+
+# Image download :
+- either using the zip provided in links or using the notebook `downloader.ipynb`

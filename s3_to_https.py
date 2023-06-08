@@ -8,3 +8,5 @@ prefix_s3 = "s3a://ds-p8/data/"
 df.rename(mapper={"path": "url"}, axis=1, inplace=True)
 
 df["url"] = df["url"].apply(lambda url: url.replace(prefix_s3, prefix_html))
+
+df.to_csv(path_or_buf="results_csv/html_fruits.csv", index=False)
