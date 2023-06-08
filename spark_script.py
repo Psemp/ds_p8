@@ -20,6 +20,7 @@ from pyspark.ml.linalg import Vectors, VectorUDT, SparseVector, DenseVector
 PATH = "s3a://ds-p8"
 PATH_DATA = PATH + "/data"
 PATH_RESULT = PATH + "/Results"
+PATH_CSV = PATH + "/csvs"
 
 k_components = 138
 
@@ -164,3 +165,7 @@ df_spark_vector = df_spark_vector.withColumn(
 
 # Saving as parquet
 df_spark_vector.write.mode("overwrite").parquet(PATH_RESULT)
+
+df_pd = df_spark_vector.toPandas()
+
+df_pd.to_csv(path_or_buf=f"{PATH_CSV}/results_fruits.csv", index=False, sep=",")
